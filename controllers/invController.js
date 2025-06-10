@@ -19,4 +19,33 @@ invCont.buildByClassificationId = async function (req, res, next) {
   })
 }
 
-module.exports = invCont
+/* ***************************
+ *  Build inventory by classification view
+ * ************************** */
+invCont.buildByVehicleId = async function (req, res, next) {
+  const inv_id = req.params.invId;
+  const data = await invModel.getVehicleByInvId(inv_id);
+  let nav = await utilities.getNav();
+
+  // Format price and miles
+  data.inv_price = Number(data.inv_price).toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+  data.inv_miles = Number(data.inv_miles).toLocaleString();
+
+  res.render("./inventory/vehicle", {
+    title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
+    nav,
+    vehicle: data, 
+  });
+};
+
+/* ***************************
+ *  Error Trigger for Testing
+ * ************************** */
+invCont.triggerError = (req, res, next) => {
+  throw new Error("This is an intentional 500 error for testing.");
+} 
+
+module.exports = invCont;
