@@ -1,0 +1,85 @@
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label,
+input {
+  padding: 10px;
+}
+
+label {
+  padding-left: 0;
+}
+
+input {
+  border: solid 2px var(--primary-background);
+  border-radius: 20px;
+  background-color: var(--secondary-background);
+}
+
+input:focus {
+  outline: none;
+  border: 2px solid var(--primary-background);
+  box-shadow: 0 0 0 2px var(--primary-background);
+}
+
+input:-webkit-autofill,
+input:autofill {
+  background-color: var(--secondary-background);
+  -webkit-text-fill-color: var(--primary-color);
+  border: solid 2px var(--primary-background);
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+button {
+  margin: 20px auto;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: solid 1.5px var(--primary-color);
+  border-radius: 50px;
+  padding: 10px 40px;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.login-content,
+.register-content {
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: var(--primary-background);
+  padding: 20px;
+  border: solid 5px var(--primary-color);
+  font-family: var(--body-text);
+  border-radius: 40px;
+  color: var(--secondary-color);
+  font-weight: 700;
+}
+
+.login-content p {
+  text-align: center;
+}
+
+.login-content p a {
+  font-size: 1.2rem;
+  margin-left: 5px;
+  color: var(--secondary-color);
+  font-weight: 600;
+}
+
+.star {
+  color: var(--secondary-color);
+  font-size: 1.3rem;
+}
+
+small {
+  margin: 10px;
+  font-family: var(--body-text);
+}
+
+.flash-message {
+  background: #ffdddd;
+  border-left: 4px solid #f44336;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
