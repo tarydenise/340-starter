@@ -21,6 +21,7 @@ async function buildRegister(req, res, next) {
     title: "Register",
     nav,
     messages: req.flash("notice"),
+    errors: null,
   });
 }
 
