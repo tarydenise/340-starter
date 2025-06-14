@@ -19,42 +19,52 @@
 
       <form action="/account/register" method="post">
         <label for="account_firstname"
-          >First Name <span class="star">*</span></label
+          >First Name: <span class="star">*</span></label
         >
         <input
           type="text"
           id="account_firstname"
           name="account_firstname"
           required
+          placeholder="Enter first name"
         />
 
         <label for="account_lastname"
-          >Last Name <span class="star">*</span></label
+          >Last Name: <span class="star">*</span></label
         >
         <input
           type="text"
           id="account_lastname"
           name="account_lastname"
           required
+          placeholder="Enter last name"
         />
 
-        <label for="account_email">Email <span class="star">*</span></label>
-        <input type="email" id="account_email" name="account_email" required />
+        <label for="account_email">Email:<span class="star">*</span></label>
+        <input
+          type="email"
+          id="account_email"
+          name="account_email"
+          required
+          placeholder="Enter valid email address"
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+        />
 
         <label for="account_password"
-          >Password <span class="star">*</span></label
+          >Password:<span class="star">*</span></label
         >
         <input
           type="password"
-          id="account_password"
           name="account_password"
+          id="accountPassword"
           required
+          pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{12,}$"
+          placeholder="Enter password"
         />
-
-        <small>
-          Password must be at least 12 characters and include at least 1 capital
-          letter, 1 number, and 1 special character.
-        </small>
+        <small
+          >Passwords must be at least 12 characters and contain at least 1
+          number, 1 capital letter and 1 special character</small
+        >
 
         <button type="submit">Register</button>
       </form>
