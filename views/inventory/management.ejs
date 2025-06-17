@@ -4,12 +4,8 @@
 <% } else { res.redirect('/') } %>
 
 <!-- Flash Message -->
-<% if (Array.isArray(messages) && messages.length > 0) { %>
-<div class="flash-messages">
-  <% messages.forEach(function(msg) { %>
-  <p><%= msg %></p>
-  <% }) %>
-</div>
+<% if (message) { %>
+<p class="message"><%= message %></p>
 <% } %>
 
 <!-- HTML -->
