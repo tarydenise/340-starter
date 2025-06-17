@@ -52,7 +52,7 @@ invCont.buildManagement = async function (req, res, next) {
   });
 };
 
-//Build ADD NEW CLASSIFICATION view
+// ADD NEW CLASSIFICATION view
 invCont.buildAddClassification = async function (req, res) {
   let nav = await utilities.getNav();
   res.render("./inventory/add-classification", {
@@ -82,14 +82,47 @@ invCont.addClassification = async function (req, res) {
   }
 };
 
-//Build ADD NEW INVENTORY view
-invCont.buildAddInventory = async (req, res) => {
-  let nav = await utilities.getNav();
-  res.render("inventory/add-inventory", {
-    title: "Add New Inventory",
-    nav,
-    errors: null,
-  });
+// ADD NEW INVENTORY view
+invCont.buildAddInventory = async function (req, res) {
+  try {
+    let nav = await utilities.getNav();
+    let classificationList = await utilities.buildClassificationList();
+    res.render("./inventory/add-inventory", {
+      title: "Add Inventory",
+      nav,
+      classificationList,
+      errors: null,
+      message: req.flash("message"),
+      sticky: {},
+    });
+  } catch (error) {
+    console.error("buildAddInventory error:", error);
+    res.status(500).send("Something went wrong.");
+  }
+};
+
+invCont.addInventory = async function (req, res) {
+  const inventoryData = req.body;
+  const addResult = await invModel.addInventory(inventoryData);
+
+  if (addResult) {
+    req.flash("message", "New vehicle successfully added.");
+    res.redirect("/inv");
+  } else {
+    let nav = await utilities.getNav();
+    let classificationList = await utilities.buildClassificationList(
+      inventoryData.classification_id
+    );
+    req.flash("message", "Error: Vehicle not added.");
+    res.status(500).render("./inventory/add-inventory", {
+      title: "Add Inventory",
+      nav,
+      classificationList,
+      errors: null,
+      message: req.flash("message"),
+      sticky: inventoryData,
+    });
+  }
 };
 
 /* ***************************

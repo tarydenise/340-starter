@@ -30,8 +30,20 @@ router.post(
   invValidation.checkClassificationData,
   utilities.handleErrors(invController.addClassification)
 );
-// Route to display the add inventory form
-router.get("/add-inventory", invController.buildAddInventory);
+
+// Show add inventory view
+router.get(
+  "/add-inventory",
+  utilities.handleErrors(invController.buildAddInventory)
+);
+
+// Handle POST submission
+router.post(
+  "/add-inventory",
+  invValidation.inventoryRules(),
+  invValidation.checkInventoryData,
+  utilities.handleErrors(invController.addInventory)
+);
 
 // Route to trigger an error for testing purposes
 router.get("/error-test", utilities.handleErrors(invController.triggerError));
