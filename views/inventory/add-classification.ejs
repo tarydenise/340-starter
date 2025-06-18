@@ -1,18 +1,45 @@
-<h1>Add New Classification</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/login.css" />
+  </head>
 
-<% if (message) { %>
-<p class="message"><%= message %></p>
-<% } %>
+  <body>
+    <div class="login-content">
+      <h1><%= title %></h1>
 
-<form id="addClassificationForm" action="/inv/add-classification" method="post">
-  <label for="classification_name">Classification Name</label>
-  <input
-    type="text"
-    id="classification_name"
-    name="classification_name"
-    pattern="^[A-Za-z0-9]+$"
-    required
-  />
-  <small>No spaces or special characters allowed</small>
-  <button type="submit">Add Classification</button>
-</form>
+      <% if (Array.isArray(messages) && messages.length > 0) { %>
+      <div class="flash-messages">
+        <% messages.forEach(function(msg) { %>
+        <p><%= msg %></p>
+        <% }) %>
+      </div>
+      <% } %> <% if (errors) { %>
+      <ul class="notice">
+        <% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+      <% } %>
+
+      <form
+        id="addClassificationForm"
+        action="/inv/add-classification"
+        method="post"
+      >
+        <label for="classification_name">Classification Name</label>
+        <input
+          type="text"
+          id="classification_name"
+          name="classification_name"
+          pattern="^[A-Za-z0-9]+$"
+          required
+        />
+        <small>No spaces or special characters allowed</small>
+        <button type="submit">Add Classification</button>
+      </form>
+    </div>
+  </body>
+</html>

@@ -59,7 +59,7 @@ invCont.buildAddClassification = async function (req, res) {
     title: "Add Classification",
     nav,
     errors: null,
-    message: req.flash("message"),
+    message: req.flash("notice"),
   });
 };
 
@@ -68,16 +68,15 @@ invCont.addClassification = async function (req, res) {
   const addResult = await invModel.addClassification(classification_name);
 
   if (addResult) {
-    req.flash("message", "New classification added successfully!");
+    req.flash("notice", "New classification added successfully!");
     res.redirect("/inv");
   } else {
     let nav = await utilities.getNav();
-    req.flash("message", "Failed to add classification.");
+    req.flash("notice", "Failed to add classification.");
     res.status(500).render("./inventory/add-classification", {
       title: "Add Classification",
       nav,
-      errors: null,
-      message: req.flash("message"),
+      message: req.flash("notice"),
     });
   }
 };
@@ -92,7 +91,7 @@ invCont.buildAddInventory = async function (req, res) {
       nav,
       classificationList,
       errors: null,
-      message: req.flash("message"),
+      message: req.flash("notice"),
       sticky: {},
     });
   } catch (error) {
@@ -106,20 +105,20 @@ invCont.addInventory = async function (req, res) {
   const addResult = await invModel.addInventory(inventoryData);
 
   if (addResult) {
-    req.flash("message", "New vehicle successfully added.");
+    req.flash("notice", "New vehicle successfully added.");
     res.redirect("/inv");
   } else {
     let nav = await utilities.getNav();
     let classificationList = await utilities.buildClassificationList(
       inventoryData.classification_id
     );
-    req.flash("message", "Error: Vehicle not added.");
+    req.flash("notice", "Error: Vehicle not added.");
     res.status(500).render("./inventory/add-inventory", {
       title: "Add Inventory",
       nav,
       classificationList,
       errors: null,
-      message: req.flash("message"),
+      message: req.flash("notice"),
       sticky: inventoryData,
     });
   }

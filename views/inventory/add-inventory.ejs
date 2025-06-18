@@ -1,118 +1,118 @@
-<h1>Add New Vehicle</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/login.css" />
+  </head>
 
-<% if (message) { %>
-<p class="message"><%= message %></p>
-<% } %> <% if (errors) { %>
-<ul class="errors">
-  <% errors.forEach(error => { %>
-  <li><%= error.msg %></li>
-  <% }) %>
-</ul>
-<% } %>
+  <body>
+    <div class="login-content">
+      <h1><%= title %></h1>
 
-<form id="addInventoryForm" action="/inv/add-inventory" method="post">
-  <div>
-    <label for="classificationList">Classification</label><br />
-    <%- classificationList %>
-  </div>
+      <% if (Array.isArray(messages) && messages.length > 0) { %>
+      <div class="flash-messages">
+        <% messages.forEach(function(msg) { %>
+        <p><%= msg %></p>
+        <% }) %>
+      </div>
+      <% } %> <% if (errors) { %>
+      <ul class="notice">
+        <% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+      <% } %>
 
-  <div>
-    <label for="inv_make">Make</label><br />
-    <input
-      type="text"
-      id="inv_make"
-      name="inv_make"
-      required
-      value="<%= sticky?.inv_make || '' %>"
-    />
-  </div>
+      <form id="addInventoryForm" action="/inv/add-inventory" method="post">
+        <label for="classificationList">Classification</label>
+        <%- classificationList %>
 
-  <div>
-    <label for="inv_model">Model</label><br />
-    <input
-      type="text"
-      id="inv_model"
-      name="inv_model"
-      required
-      value="<%= sticky?.inv_model || '' %>"
-    />
-  </div>
+        <label for="inv_make">Make</label>
+        <input
+          type="text"
+          id="inv_make"
+          name="inv_make"
+          required
+          placeholder="Min of 3 characters"
+          value="<%= sticky?.inv_make || '' %>"
+        />
 
-  <div>
-    <label for="inv_description">Description</label><br />
-    <textarea id="inv_description" name="inv_description" required>
+        <label for="inv_model">Model</label>
+        <input
+          type="text"
+          id="inv_model"
+          name="inv_model"
+          required
+          placeholder="Min of 3 characters"
+          value="<%= sticky?.inv_model || '' %>"
+        />
+
+        <label for="inv_description">Description</label>
+        <textarea id="inv_description" name="inv_description" required>
 <%= sticky?.inv_description || '' %></textarea
-    >
-  </div>
+        >
 
-  <div>
-    <label for="inv_image">Image Path</label><br />
-    <input
-      type="text"
-      id="inv_image"
-      name="inv_image"
-      required
-      value="<%= sticky?.inv_image && sticky.inv_image.length > 0 ? sticky.inv_image : '/images/vehicles/no-image.png' %>"
-    />
-  </div>
+        <label for="inv_image">Image Path</label>
+        <input
+          type="text"
+          id="inv_image"
+          name="inv_image"
+          required
+          value="<%= sticky?.inv_image && sticky.inv_image.length > 0 ? sticky.inv_image : '/images/vehicles/no-image.png' %>"
+        />
 
-  <div>
-    <label for="inv_thumbnail">Thumbnail Path</label><br />
-    <input
-      type="text"
-      id="inv_thumbnail"
-      name="inv_thumbnail"
-      required
-      value="<%= sticky?.inv_thumbnail && sticky.inv_thumbnail.length > 0 ? sticky.inv_thumbnail : '/images/vehicles/no-image-tn.png' %>"
-    />
-  </div>
+        <label for="inv_thumbnail">Thumbnail Path</label>
+        <input
+          type="text"
+          id="inv_thumbnail"
+          name="inv_thumbnail"
+          required
+          value="<%= sticky?.inv_thumbnail && sticky.inv_thumbnail.length > 0 ? sticky.inv_thumbnail : '/images/vehicles/no-image-tn.png' %>"
+        />
 
-  <div>
-    <label for="inv_price">Price</label><br />
-    <input
-      type="number"
-      id="inv_price"
-      name="inv_price"
-      step="0.01"
-      required
-      value="<%= sticky?.inv_price || '' %>"
-    />
-  </div>
+        <label for="inv_price">Price</label>
+        <input
+          type="number"
+          id="inv_price"
+          name="inv_price"
+          step="0.01"
+          required
+          placeholder="Decimal or integer"
+          value="<%= sticky?.inv_price || '' %>"
+        />
 
-  <div>
-    <label for="inv_year">Year</label><br />
-    <input
-      type="number"
-      id="inv_year"
-      name="inv_year"
-      required
-      value="<%= sticky?.inv_year || '' %>"
-    />
-  </div>
+        <label for="inv_year">Year</label>
+        <input
+          type="number"
+          id="inv_year"
+          name="inv_year"
+          required
+          placeholder="4-digit year"
+          value="<%= sticky?.inv_year || '' %>"
+        />
 
-  <div>
-    <label for="inv_miles">Miles</label><br />
-    <input
-      type="number"
-      id="inv_miles"
-      name="inv_miles"
-      required
-      value="<%= sticky?.inv_miles || '' %>"
-    />
-  </div>
+        <label for="inv_miles">Miles</label>
+        <input
+          type="number"
+          id="inv_miles"
+          name="inv_miles"
+          required
+          placeholder="Digits only"
+          value="<%= sticky?.inv_miles || '' %>"
+        />
 
-  <div>
-    <label for="inv_color">Color</label><br />
-    <input
-      type="text"
-      id="inv_color"
-      name="inv_color"
-      required
-      value="<%= sticky?.inv_color || '' %>"
-    />
-  </div>
+        <label for="inv_color">Color</label>
+        <input
+          type="text"
+          id="inv_color"
+          name="inv_color"
+          required
+          value="<%= sticky?.inv_color || '' %>"
+        />
 
-  <div>
-    <button type="submit">Add Vehicle</button>
-  </div>
-</form>
+        <button type="submit">Add Vehicle</button>
+      </form>
+    </div>
+  </body>
+</html>

@@ -3,22 +3,22 @@ form {
   flex-direction: column;
 }
 
-label,
-input {
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
 label {
-  padding-left: 0;
+  margin-bottom: 6px;
+  display: block;
   font-weight: bold;
   color: var(--secondary-color);
 }
 
-input {
+input,
+textarea,
+select {
+  padding: 10px;
+  margin-bottom: 15px;
   background-color: #f8f9fa;
   border: solid 2px var(--primary-color);
   border-radius: 20px;
+  width: 100%;
 }
 
 input:focus {
@@ -55,7 +55,7 @@ button:hover {
 
 .login-content,
 .register-content {
-  max-width: 400px;
+  max-width: 600px;
   margin: 0 auto;
   background-color: var(--primary-background);
   padding: 20px;
@@ -94,18 +94,43 @@ small {
   color: var(--primary-color);
 }
 
+/* handle longer form */
+
+textarea {
+  background-color: #f8f9fa;
+  border: solid 2px var(--primary-color);
+  border-radius: 20px;
+  padding: 10px;
+  resize: vertical;
+}
+
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--secondary-color);
+}
+
+/* messages */
+
 .flash-messages {
   background: var(--light-background);
   border-left: 4px solid var(--secondary-color);
   padding: 1rem;
-  margin-bottom: 1rem auto;
+  margin-bottom: 1rem;
 }
 
-input:required:invalid {
+/* *********** Validations *********** */
+
+/* Highlight all required but invalid fields */
+input:required:invalid,
+select:required:invalid,
+textarea:required:invalid {
   box-shadow: 0 0 0 2px var(--secondary-color);
 }
 
-input:required:valid {
+/* Valid fields get a success highlight */
+input:required:valid,
+select:required:valid,
+textarea:required:valid {
   box-shadow: 0 0 0 2px var(--primary-color);
 }
 

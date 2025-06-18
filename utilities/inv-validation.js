@@ -1,4 +1,5 @@
 const { body, validationResult } = require("express-validator");
+const utilities = require("../utilities");
 
 // CLassification
 const classificationRules = () => {
@@ -8,24 +9,32 @@ const classificationRules = () => {
       .isLength({ min: 1 })
       .withMessage("Classification name is required.")
       .matches(/^[A-Za-z0-9]+$/)
-      .withMessage("No spaces or special characters allowed."),
+      .withMessage("Provide a correct classication name"),
   ];
 };
 
-const checkClassificationData = (req, res, next) => {
+const checkClassificationData = async (req, res, next) => {
+  const { classification_name } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    let nav;
-    utilities.getNav().then((nav) => {
-      res.render("./inventory/add-classification", {
+    try {
+      let nav = await utilities.getNav();
+      res.render("inventory/add-classification", {
+        errors,
         title: "Add Classification",
         nav,
-        errors: errors.array(),
-        message: null,
+        classification_name,
       });
-    });
+    } catch (err) {
+      console.error(
+        "Error rendering add-classification form with validation errors:",
+        err
+      );
+      res.status(500).send("Server error during classification validation.");
+    }
     return;
   }
+
   next();
 };
 
@@ -59,18 +68,26 @@ const inventoryRules = () => {
 const checkInventoryData = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    let nav = await utilities.getNav();
-    let classificationList = await utilities.buildClassificationList(
-      req.body.classification_id
-    );
-    res.render("./inventory/add-inventory", {
-      title: "Add Inventory",
-      nav,
-      classificationList,
-      errors: errors.array(),
-      message: null,
-      sticky: req.body,
-    });
+    try {
+      let nav = await utilities.getNav();
+      let classificationList = await utilities.buildClassificationList(
+        req.body.classification_id
+      );
+      res.render("./inventory/add-inventory", {
+        title: "Add Inventory",
+        nav,
+        classificationList,
+        errors,
+        message: null,
+        sticky: req.body,
+      });
+    } catch (err) {
+      console.error(
+        "Error rendering add-inventory form with validation errors:",
+        err
+      );
+      res.status(500).send("Server error during inventory validation.");
+    }
     return;
   }
   next();
