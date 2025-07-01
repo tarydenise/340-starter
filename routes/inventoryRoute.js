@@ -48,4 +48,10 @@ router.post(
 // Route to trigger an error for testing purposes
 router.get("/error-test", utilities.handleErrors(invController.triggerError));
 
+// Inventory Route
+router.get(
+  "/getInventory/:classification_id",
+  utilities.handleErrors(invController.getInventoryJSON)
+);
+
 module.exports = router;

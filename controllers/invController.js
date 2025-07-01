@@ -44,9 +44,12 @@ invCont.buildByVehicleId = async function (req, res, next) {
 // Management View
 invCont.buildManagement = async function (req, res, next) {
   let nav = await utilities.getNav();
+  const classificationSelect = await utilities.buildClassificationList();
+
   res.render("./inventory/management", {
     title: "Inventory Management",
     nav,
+    classificationSelect,
     errors: null,
     message: req.flash("message"),
   });
@@ -129,6 +132,21 @@ invCont.addInventory = async function (req, res) {
  * ************************** */
 invCont.triggerError = (req, res, next) => {
   throw new Error("This is an intentional 500 error for testing.");
+};
+
+/* ***************************
+ *  Return Inventory by Classification As JSON
+ * ************************** */
+invCont.getInventoryJSON = async (req, res, next) => {
+  const classification_id = parseInt(req.params.classification_id);
+  const invData = await invModel.getInventoryByClassificationId(
+    classification_id
+  );
+  if (invData[0]?.inv_id) {
+    return res.json(invData);
+  } else {
+    next(new Error("No data returned"));
+  }
 };
 
 module.exports = invCont;

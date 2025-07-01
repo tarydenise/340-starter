@@ -20,6 +20,11 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
 /* ***********************
+ * Access public folder
+ * ************************/
+app.use(express.static("public"));
+
+/* ***********************
  * Middleware
  * ************************/
 app.use(

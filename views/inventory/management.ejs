@@ -9,5 +9,15 @@
 <% } %>
 
 <!-- HTML -->
-<a href="/inv/add-classification">Add New Classification</a><br />
-<a href="/inv/add-inventory">Add New Inventory</a>
+<div class="management">
+  <div class="management-links">
+    <a href="/inv/add-classification">Add New Classification</a><br />
+    <a href="/inv/add-inventory">Add New Inventory</a>
+  </div>
+  <h2>Manage Inventory</h2>
+  <p>Choose a classification to see items.</p>
+  <div class="center-select"><%- classificationSelect %></div>
+  <table id="inventoryDisplay"></table>
+  <noscript>JavaScript must be enabled to use this page.</noscript>
+  <script src="/js/inventory.js"></script>
+</div>
