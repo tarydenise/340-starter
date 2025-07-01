@@ -19,6 +19,11 @@ router.get(
 );
 
 /* ******************************************
+ * Deliver Management View
+ * *****************************************/
+router.get("/", utilities.checkJWTToken, accountController.accountManagement);
+
+/* ******************************************
  * Process Registration
  * *****************************************/
 router.post(
@@ -26,6 +31,16 @@ router.post(
   regValidate.registationRules(),
   regValidate.checkRegData,
   utilities.handleErrors(accountController.registerAccount)
+);
+
+/* ******************************************
+ * Process Login
+ * *****************************************/
+router.post(
+  "/login",
+  regValidate.loginRules(),
+  regValidate.checkLoginData,
+  utilities.handleErrors(accountController.accountLogin)
 );
 
 module.exports = router;
