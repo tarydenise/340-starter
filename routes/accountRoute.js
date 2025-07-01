@@ -21,7 +21,11 @@ router.get(
 /* ******************************************
  * Deliver Management View
  * *****************************************/
-router.get("/", utilities.checkJWTToken, accountController.accountManagement);
+router.get(
+  "/",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.accountManagement)
+);
 
 /* ******************************************
  * Process Registration
