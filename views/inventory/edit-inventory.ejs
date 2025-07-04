@@ -24,7 +24,7 @@
       </ul>
       <% } %>
 
-      <form id="editInventoryForm" action="/inv/update" method="post">
+      <form id="updateForm" action="/inv/update" method="post">
         <label for="classificationList">Classification</label>
         <%- classificationSelect %>
 
@@ -111,8 +111,14 @@
           value="<%= sticky?.inv_color || '' %>"
         />
 
-        <button type="submit">Update Vehicle</button>
+        <button type="submit" disabled>Update Vehicle</button>
+        <input
+          type="hidden"
+          name="inv_id"
+          value="<%= sticky?.inv_id || inv_id %>"
+        />
       </form>
+      <script src="/js/inv-update.js"></script>
     </div>
   </body>
 </html>

@@ -93,9 +93,30 @@ const checkInventoryData = async (req, res, next) => {
   next();
 };
 
+const checkUpdateData = async (req, res, next) => {
+  const errors = validationResult(req);
+  let nav = await utilities.getNav();
+  let classificationList = await utilities.buildClassificationList(
+    req.body.classification_id
+  );
+  let sticky = { ...req.body };
+  if (!errors.isEmpty()) {
+    res.render("./inventory/edit-inventory", {
+      title: "Edit " + sticky.inv_make + " " + sticky.inv_model,
+      nav,
+      classificationList,
+      errors,
+      sticky,
+    });
+    return;
+  }
+  next();
+};
+
 module.exports = {
   classificationRules,
   checkClassificationData,
   inventoryRules,
   checkInventoryData,
+  checkUpdateData,
 };

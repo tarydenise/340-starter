@@ -153,9 +153,6 @@ invCont.getInventoryJSON = async (req, res, next) => {
 /* ***************************
  *  Build edit inventory view
  * ************************** */
-/* ***************************
- *  Build edit inventory view
- * ************************** */
 invCont.editInventoryView = async function (req, res, next) {
   const inv_id = parseInt(req.params.inv_id);
   let nav = await utilities.getNav();
@@ -184,6 +181,56 @@ invCont.editInventoryView = async function (req, res, next) {
       classification_id: itemData.classification_id,
     },
   });
+};
+
+// Update Inventory
+invCont.updateInventory = async function (req, res, next) {
+  let nav = await utilities.getNav();
+  const {
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id,
+  } = req.body;
+  const updateResult = await invModel.updateInventory(
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id
+  );
+  if (updateResult) {
+    req.flash(
+      "notice",
+      `The ${inv_make} ${inv_model} was successfully updated.`
+    );
+    res.redirect("/inv/");
+  } else {
+    const classificationList = await utilities.buildClassificationList(
+      classification_id
+    );
+    req.flash("notice", "Sorry, the update failed.");
+    res.status(501).render("./inventory/edit-inventory", {
+      title: "Edit " + inv_make + " " + inv_model,
+      nav,
+      classificationList,
+      errors: null,
+      sticky: req.body,
+    });
+  }
 };
 
 /* ***************************
