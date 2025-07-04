@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/login.css" />
+  </head>
+
+  <body>
+    <div class="login-content">
+      <h1><%= title %></h1>
+
+      <% if (Array.isArray(messages) && messages.length > 0) { %>
+      <div class="flash-messages">
+        <% messages.forEach(function(msg) { %>
+        <p><%= msg %></p>
+        <% }) %>
+      </div>
+      <% } %> <% if (errors) { %>
+      <ul class="notice">
+        <% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+      <% } %>
+
+      <form id="deleteForm" action="/inv/delete" method="post">
+        <p>Confirm Deletion - The delete is permanent.</p>
+
+        <label>Make</label>
+        <input type="text" name="inv_make" value="<%= inv_make %>" readonly />
+
+        <label>Model</label>
+        <input type="text" name="inv_model" value="<%= inv_model %>" readonly />
+
+        <label>Year</label>
+        <input type="text" name="inv_year" value="<%= inv_year %>" readonly />
+
+        <label>Price</label>
+        <input type="text" name="inv_price" value="<%= inv_price %>" readonly />
+
+        <input type="hidden" name="inv_id" value="<%= inv_id %>" />
+
+        <button type="submit">Delete</button>
+      </form>
+    </div>
+  </body>
+</html>
