@@ -41,7 +41,9 @@ invCont.buildByVehicleId = async function (req, res, next) {
   });
 };
 
-// Management View
+/* ***************************
+ *  Build Management view
+ * ************************** */
 invCont.buildManagement = async function (req, res, next) {
   let nav = await utilities.getNav();
   const classificationSelect = await utilities.buildClassificationList();
@@ -55,7 +57,9 @@ invCont.buildManagement = async function (req, res, next) {
   });
 };
 
-// ADD NEW CLASSIFICATION view
+/* ***************************
+ *  Build Add Classification view
+ * ************************** */
 invCont.buildAddClassification = async function (req, res) {
   let nav = await utilities.getNav();
   res.render("./inventory/add-classification", {
@@ -66,6 +70,7 @@ invCont.buildAddClassification = async function (req, res) {
   });
 };
 
+// Add Classification
 invCont.addClassification = async function (req, res) {
   const { classification_name } = req.body;
   const addResult = await invModel.addClassification(classification_name);
@@ -84,7 +89,9 @@ invCont.addClassification = async function (req, res) {
   }
 };
 
-// ADD NEW INVENTORY view
+/* ***************************
+ *  Build Add New Inventory view
+ * ************************** */
 invCont.buildAddInventory = async function (req, res) {
   try {
     let nav = await utilities.getNav();
@@ -103,6 +110,7 @@ invCont.buildAddInventory = async function (req, res) {
   }
 };
 
+// Add Inventory
 invCont.addInventory = async function (req, res) {
   const inventoryData = req.body;
   const addResult = await invModel.addInventory(inventoryData);
@@ -128,13 +136,6 @@ invCont.addInventory = async function (req, res) {
 };
 
 /* ***************************
- *  Error Trigger for Testing
- * ************************** */
-invCont.triggerError = (req, res, next) => {
-  throw new Error("This is an intentional 500 error for testing.");
-};
-
-/* ***************************
  *  Return Inventory by Classification As JSON
  * ************************** */
 invCont.getInventoryJSON = async (req, res, next) => {
@@ -147,6 +148,49 @@ invCont.getInventoryJSON = async (req, res, next) => {
   } else {
     next(new Error("No data returned"));
   }
+};
+
+/* ***************************
+ *  Build edit inventory view
+ * ************************** */
+/* ***************************
+ *  Build edit inventory view
+ * ************************** */
+invCont.editInventoryView = async function (req, res, next) {
+  const inv_id = parseInt(req.params.inv_id);
+  let nav = await utilities.getNav();
+  const itemData = await invModel.getInventoryById(inv_id);
+  const classificationSelect = await utilities.buildClassificationList(
+    itemData.classification_id
+  );
+  const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
+  res.render("./inventory/edit-inventory", {
+    title: "Edit " + itemName,
+    nav,
+    classificationSelect,
+    errors: null,
+    messages: req.flash("notice"),
+    sticky: {
+      inv_id: itemData.inv_id,
+      inv_make: itemData.inv_make,
+      inv_model: itemData.inv_model,
+      inv_year: itemData.inv_year,
+      inv_description: itemData.inv_description,
+      inv_image: itemData.inv_image,
+      inv_thumbnail: itemData.inv_thumbnail,
+      inv_price: itemData.inv_price,
+      inv_miles: itemData.inv_miles,
+      inv_color: itemData.inv_color,
+      classification_id: itemData.classification_id,
+    },
+  });
+};
+
+/* ***************************
+ *  Error Trigger for Testing
+ * ************************** */
+invCont.triggerError = (req, res, next) => {
+  throw new Error("This is an intentional 500 error for testing.");
 };
 
 module.exports = invCont;
