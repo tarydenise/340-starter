@@ -389,6 +389,13 @@ h1 {
   text-decoration: underline;
 }
 
+/* messages */
+
+.flash-messages {
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
 /****** Footer ******/
 footer p {
   color: var(--primary-color);

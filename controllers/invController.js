@@ -53,7 +53,7 @@ invCont.buildManagement = async function (req, res, next) {
     nav,
     classificationSelect,
     errors: null,
-    message: req.flash("message"),
+    messages: req.flash("notice"),
   });
 };
 
@@ -66,7 +66,7 @@ invCont.buildAddClassification = async function (req, res) {
     title: "Add Classification",
     nav,
     errors: null,
-    message: req.flash("notice"),
+    messages: req.flash("notice"),
   });
 };
 
@@ -84,7 +84,7 @@ invCont.addClassification = async function (req, res) {
     res.status(500).render("./inventory/add-classification", {
       title: "Add Classification",
       nav,
-      message: req.flash("notice"),
+      messages: req.flash("notice"),
     });
   }
 };
@@ -101,7 +101,7 @@ invCont.buildAddInventory = async function (req, res) {
       nav,
       classificationList,
       errors: null,
-      message: req.flash("notice"),
+      messages: req.flash("notice"),
       sticky: {},
     });
   } catch (error) {
@@ -129,7 +129,7 @@ invCont.addInventory = async function (req, res) {
       nav,
       classificationList,
       errors: null,
-      message: req.flash("notice"),
+      messages: req.flash("notice"),
       sticky: inventoryData,
     });
   }
