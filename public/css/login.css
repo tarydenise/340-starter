@@ -35,7 +35,9 @@ input:autofill {
   transition: background-color 5000s ease-in-out 0s;
 }
 
-button {
+button,
+button:disabled:hover,
+input[type="submit"]:disabled:hover {
   margin: 20px auto;
   padding: 0.5rem;
   font-size: 1rem;
