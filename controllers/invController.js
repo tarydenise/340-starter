@@ -19,6 +19,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
     title: className + " vehicles",
     nav,
     grid,
+    messages: req.flash("notice"),
   });
 };
 
@@ -41,6 +42,7 @@ invCont.buildByVehicleId = async function (req, res, next) {
     title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
     nav,
     vehicle: data,
+    messages: req.flash("notice"),
   });
 };
 
@@ -248,6 +250,7 @@ invCont.buildDeleteConfirmView = async function (req, res, next) {
     title: "Delete " + itemName,
     nav,
     errors: null,
+    messages: req.flash("notice"),
     inv_id: itemData.inv_id,
     inv_make: itemData.inv_make,
     inv_model: itemData.inv_model,

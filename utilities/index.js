@@ -166,4 +166,24 @@ Util.checkLogin = (req, res, next) => {
   }
 };
 
+/* ***************************************************************************
+ *  Only allow "Employee" or "Admin" account types for inventory admin actions
+ * ************************************************************************ */
+Util.checkEmployeeOrAdmin = (req, res, next) => {
+  const user = res.locals.accountData;
+  if (
+    res.locals.loggedin &&
+    user &&
+    (user.account_type === "Employee" || user.account_type === "Admin")
+  ) {
+    return next();
+  } else {
+    req.flash(
+      "notice",
+      "You must be logged in as an Employee or Admin to access this resource."
+    );
+    return res.redirect("/account/login");
+  }
+};
+
 module.exports = Util;
