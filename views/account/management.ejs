@@ -12,7 +12,10 @@
       <% if (messages && messages.length) { %>
       <div><%= messages %></div>
       <% } %>
-      <h2>You're logged in!</h2>
+      <p id="logged-in-msg">You're logged in.</p>
+      <a id="edit-account" href="/account/update/<%= accountData.account_id %>"
+        >Edit Account Information</a
+      >
     </div>
   </body>
 </html>

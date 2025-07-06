@@ -130,10 +130,73 @@ async function accountLogin(req, res) {
   }
 }
 
+/* ****************************************
+ *  Update Account
+ * ************************************ */
+
+async function showUpdateAccount(req, res, next) {
+  const account_id = req.params.id;
+  const accountData = await accountModel.getAccountById(account_id);
+  let nav = await utilities.getNav();
+  res.render("account/update-account", {
+    title: "Update Account Information",
+    nav,
+    accountData,
+    errors: null,
+    message: req.flash("notice"),
+  });
+}
+
+async function updateAccount(req, res, next) {
+  const { account_id, account_firstname, account_lastname, account_email } =
+    req.body;
+  // 1. Update the database
+  const updateResult = await accountModel.updateAccount({
+    account_id,
+    account_firstname,
+    account_lastname,
+    account_email,
+  });
+
+  if (updateResult) {
+    const updatedAccount = await accountModel.getAccountById(account_id);
+
+    delete updatedAccount.account_password;
+
+    const accessToken = jwt.sign(
+      updatedAccount,
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: 3600 * 1000 }
+    );
+    if (process.env.NODE_ENV === "development") {
+      res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
+    } else {
+      res.cookie("jwt", accessToken, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 3600 * 1000,
+      });
+    }
+    req.flash("notice", "Account updated successfully!");
+    res.redirect("/account/");
+  } else {
+    let nav = await utilities.getNav();
+    res.status(500).render("account/update-account", {
+      title: "Update Account Information",
+      nav,
+      accountData: req.body,
+      errors: ["Update failed. Please try again."],
+      message: req.flash("notice"),
+    });
+  }
+}
+
 module.exports = {
   buildLogin,
   buildRegister,
   registerAccount,
   accountLogin,
   accountManagement,
+  showUpdateAccount,
+  updateAccount,
 };

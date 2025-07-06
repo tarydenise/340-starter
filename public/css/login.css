@@ -142,3 +142,12 @@ input::placeholder {
   font-style: italic;
   font-size: 1rem;
 }
+
+#logged-in-msg {
+  text-align: left;
+  margin: 10px auto;
+}
+
+#edit-account {
+  color: var(--primary-color);
+}

@@ -38,4 +38,32 @@ async function getAccountByEmail(account_email) {
   }
 }
 
-module.exports = { registerAccount, getAccountByEmail };
+async function getAccountById(account_id) {
+  const sql = "SELECT * FROM account WHERE account_id = $1";
+  const data = await pool.query(sql, [account_id]);
+  return data.rows[0];
+}
+
+async function updateAccount({
+  account_id,
+  account_firstname,
+  account_lastname,
+  account_email,
+}) {
+  const sql =
+    "UPDATE account SET account_firstname = $1, account_lastname = $2, account_email = $3 WHERE account_id = $4 RETURNING *";
+  const data = await pool.query(sql, [
+    account_firstname,
+    account_lastname,
+    account_email,
+    account_id,
+  ]);
+  return data.rows[0];
+}
+
+module.exports = {
+  registerAccount,
+  getAccountByEmail,
+  getAccountById,
+  updateAccount,
+};

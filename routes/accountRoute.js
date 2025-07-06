@@ -56,4 +56,18 @@ router.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
+// Show the update account info form (GET)
+router.get(
+  "/update/:id",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.showUpdateAccount)
+);
+
+// Handle the update POST request
+router.post(
+  "/update",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.updateAccount)
+);
+
 module.exports = router;
