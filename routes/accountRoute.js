@@ -67,6 +67,8 @@ router.get(
 router.post(
   "/update",
   utilities.checkLogin,
+  regValidate.updateAccountRules(),
+  regValidate.checkUpdateData,
   utilities.handleErrors(accountController.updateAccount)
 );
 
