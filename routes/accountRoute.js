@@ -47,4 +47,13 @@ router.post(
   utilities.handleErrors(accountController.accountLogin)
 );
 
+/* ******************************************
+ * Process Logout
+ * *****************************************/
+router.get("/logout", (req, res) => {
+  res.clearCookie("jwt");
+  req.flash("notice", "You have been logged out.");
+  res.redirect("/");
+});
+
 module.exports = router;
