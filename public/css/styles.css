@@ -389,6 +389,45 @@ h1 {
   text-decoration: underline;
 }
 
+/* Account Form */
+.account-form {
+  max-width: 400px;
+  margin: 2rem auto 2rem auto;
+  background: #f8f9fa;
+  padding: 2rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 0 8px #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-family: var(--body-text);
+}
+
+.account-form input {
+  padding: 0.5rem;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+}
+
+.account-form button {
+  background: var(--primary-color);
+  color: var(--secondary-color);
+  padding: 0.7rem 0;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  margin-top: 1rem;
+  transition: background 0.2s;
+  border: 2px solid var(--primary-color);
+}
+
+.account-form button:hover:not(:disabled) {
+  background: var(--secondary-background);
+  color: var(--primary-color);
+  cursor: pointer;
+  border: 2px solid var(--primary-color);
+}
+
 /* messages */
 
 .flash-messages {

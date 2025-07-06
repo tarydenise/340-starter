@@ -110,4 +110,74 @@ validate.checkLoginData = async (req, res, next) => {
   next();
 };
 
+/* ******************************
+ * Check password change data and return errors or continue
+ * ***************************** */
+validate.checkPasswordChange = async (req, res, next) => {
+  let errors = validationResult(req);
+  const account_id = req.body.account_id;
+  let nav = await utilities.getNav();
+
+  const accountModel = require("../models/account-model");
+  const accountData = await accountModel.getAccountById(account_id);
+
+  if (!errors.isEmpty()) {
+    res.render("account/update-account", {
+      errors,
+      passwordErrors: errors,
+      title: "Update Account Information",
+      nav,
+      accountData,
+      message: req.flash("notice"),
+    });
+    return;
+  }
+  next();
+};
+
+/*  **********************************
+ *  Password Change Validation Rules
+ * ********************************* */
+validate.passwordRules = () => {
+  return [
+    body("account_password")
+      .trim()
+      .notEmpty()
+      .isStrongPassword({
+        minLength: 12,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+      .withMessage("Password does not meet requirements."),
+  ];
+};
+
+/* ******************************
+ * Check password update data and return errors or continue
+ * ***************************** */
+validate.checkPasswordData = async (req, res, next) => {
+  const { account_password } = req.body;
+  let errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav();
+    // We need to render update-account with passwordErrors
+    const account_id = req.body.account_id;
+    const accountData = await require("../models/account-model").getAccountById(
+      account_id
+    );
+    res.render("account/update-account", {
+      title: "Update Account Information",
+      nav,
+      accountData,
+      passwordErrors: errors.array(),
+      errors: [],
+      messages: req.flash("notice"),
+    });
+    return;
+  }
+  next();
+};
+
 module.exports = validate;

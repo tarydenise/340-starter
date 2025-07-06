@@ -1,39 +1,94 @@
-<main>
-  <h1>Update Account Information</h1>
-  <% if (message) { %>
-  <p class="notice"><%= message %></p>
-  <% } %>
-  <form action="/account/update" method="post">
-    <input
-      type="hidden"
-      name="account_id"
-      value="<%= accountData.account_id %>"
-    />
+<body>
+  <main>
+    <h1><%= title %></h1>
 
-    <label for="account_firstname">First Name</label>
-    <input
-      type="text"
-      name="account_firstname"
-      value="<%= accountData.account_firstname %>"
-      required
-    />
+    <!-- Display flash messages -->
+    <% if (Array.isArray(messages) && messages.length > 0) { %>
+    <div class="flash-message">
+      <% messages.forEach(function(msg) { %>
+      <p><%= msg %></p>
+      <% }); %>
+    </div>
+    <% } %>
 
-    <label for="account_lastname">Last Name</label>
-    <input
-      type="text"
-      name="account_lastname"
-      value="<%= accountData.account_lastname %>"
-      required
-    />
+    <!-- Account Update Form -->
+    <form action="/account/update" method="POST" class="account-form">
+      <h2>Update Account Information</h2>
 
-    <label for="account_email">Email</label>
-    <input
-      type="email"
-      name="account_email"
-      value="<%= accountData.account_email %>"
-      required
-    />
+      <label for="account_firstname">First Name</label>
+      <input
+        type="text"
+        id="account_firstname"
+        name="account_firstname"
+        required
+        value="<%= (typeof account_firstname !== 'undefined') ? account_firstname : (accountData ? accountData.account_firstname : '') %>"
+      />
 
-    <button type="submit">Update Account</button>
-  </form>
-</main>
+      <label for="account_lastname">Last Name</label>
+      <input
+        type="text"
+        id="account_lastname"
+        name="account_lastname"
+        required
+        value="<%= (typeof account_lastname !== 'undefined') ? account_lastname : (accountData ? accountData.account_lastname : '') %>"
+      />
+
+      <label for="account_email">Email</label>
+      <input
+        type="email"
+        id="account_email"
+        name="account_email"
+        required
+        value="<%= (typeof account_email !== 'undefined') ? account_email : (accountData ? accountData.account_email : '') %>"
+      />
+
+      <input
+        type="hidden"
+        name="account_id"
+        value="<%= accountData ? accountData.account_id : '' %>"
+      />
+
+      <button type="submit">Update Account</button>
+    </form>
+
+    <!-- Display errors for password change -->
+    <% if (typeof passwordErrors !== "undefined" && passwordErrors.length > 0) {
+    %>
+    <div class="error-message">
+      <% passwordErrors.forEach(function(error) { %>
+      <p><%= error.msg ? error.msg : error %></p>
+      <% }); %>
+    </div>
+    <% } %>
+
+    <!-- Password Change Form -->
+    <form
+      action="/account/update-password"
+      method="POST"
+      class="account-form"
+      style="margin-top: 2em"
+    >
+      <h2>Change Password</h2>
+      <p>
+        To change your password, enter a new password below. Passwords must be
+        at least 12 characters and include uppercase, lowercase, number, and
+        special character.
+      </p>
+      <label for="account_password">New Password</label>
+      <input
+        type="password"
+        id="account_password"
+        name="account_password"
+        required
+        minlength="12"
+        placeholder="Enter new password"
+      />
+      <input
+        type="hidden"
+        name="account_id"
+        value="<%= accountData ? accountData.account_id : '' %>"
+      />
+      <button type="submit">Change Password</button>
+    </form>
+  </main>
+</body>

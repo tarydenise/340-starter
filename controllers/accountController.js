@@ -143,7 +143,7 @@ async function showUpdateAccount(req, res, next) {
     nav,
     accountData,
     errors: null,
-    message: req.flash("notice"),
+    messages: req.flash("notice"),
   });
 }
 
@@ -186,11 +186,50 @@ async function updateAccount(req, res, next) {
       nav,
       accountData: req.body,
       errors: ["Update failed. Please try again."],
-      message: req.flash("notice"),
+      messages: req.flash("notice"),
     });
   }
 }
 
+/* ****************************************
+ *  Process Password Change
+ * *************************************** */
+/* ****************************************
+ *  Update Account Password
+ * ************************************ */
+async function updatePassword(req, res) {
+  let nav = await utilities.getNav();
+  const { account_id, account_password } = req.body;
+  try {
+    const hashedPassword = await bcrypt.hash(account_password, 10);
+    const result = await accountModel.updateAccountPassword(account_id, hashedPassword);
+
+    if (result) {
+      req.flash("notice", "Password updated successfully!");
+      res.redirect("/account/");
+    } else {
+      const accountData = await accountModel.getAccountById(account_id);
+      res.status(500).render("account/update-account", {
+        title: "Update Account Information",
+        nav,
+        accountData,
+        errors: [],
+        passwordErrors: ["Password update failed. Please try again."],
+        messages: req.flash("notice"),
+      });
+    }
+  } catch (error) {
+    const accountData = await accountModel.getAccountById(account_id);
+    res.status(500).render("account/update-account", {
+      title: "Update Account Information",
+      nav,
+      accountData,
+      errors: [],
+      passwordErrors: ["Password update failed. Please try again."],
+      messages: req.flash("notice"),
+    });
+  }
+}
 module.exports = {
   buildLogin,
   buildRegister,
@@ -199,4 +238,5 @@ module.exports = {
   accountManagement,
   showUpdateAccount,
   updateAccount,
+  updatePassword,
 };

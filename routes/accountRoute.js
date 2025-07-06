@@ -70,4 +70,13 @@ router.post(
   utilities.handleErrors(accountController.updateAccount)
 );
 
+// POST route to update the password
+router.post(
+  "/update-password",
+  utilities.checkLogin,
+  regValidate.passwordRules(),
+  regValidate.checkPasswordData,
+  utilities.handleErrors(accountController.updatePassword)
+);
+
 module.exports = router;
